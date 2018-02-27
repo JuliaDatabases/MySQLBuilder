@@ -11,20 +11,17 @@ sources = [
 
 # Bash recipe for building across all platforms
 script = raw"""
-if [ $target == "i686-linux-gnu" ]; then
 cd $WORKSPACE/srcdir
+mkdir -p $prefix/lib
+if [ $target == "i686-linux-gnu" ]; then
 cp mysql-connector-c-6.1.11-linux-glibc2.12-i686/lib/libmysqlclient.so.18.4. $prefix/lib/libmysqlclient.so
 elif [ $target == "x86_64-linux-gnu" ]; then
-cd $WORKSPACE/srcdir
 cp mysql-connector-c-6.1.11-linux-glibc2.12-x86_64/lib/libmysqlclient.so.18.4. $prefix/lib/libmysqlclient.so
 elif [ $target == "i686-w64-mingw32" ]; then
-cd $WORKSPACE/srcdir
 cp mysql-connector-c-6.1.11-win32/lib/libmysql.dll $prefix/lib/libmysqlclient.dll
 elif [ $target == "x86_64-w64-mingw32" ]; then
-cd $WORKSPACE/srcdir
 cp mysql-connector-c-6.1.11-winx64/lib/libmysql.dll $prefix/lib/libmysqlclient.dll
 elif [ $target == "x86_64-apple-darwin14" ]; then
-cd $WORKSPACE/srcdir
 cp mysql-connector-c-6.1.11-macos10.12-x86_64/lib/libmysqlclient.18.dylib $prefix/lib/libmysqlclient.dylib
 fi
 
