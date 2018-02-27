@@ -2,16 +2,11 @@ using BinaryBuilder
 
 # Collection of sources required to build MySQL
 sources = [
-    "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-linux-glibc2.12-i686.tar
-.gz" => "32e463fda6613907b90d44228b3b81ad7508ce5e20a928b86ced47fbce1fe92a",
-    "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-linux-glibc2.12-x86_64
-.tar.gz" => "149102915ea1f1144edb0de399c3392a55773448f96b150ec1568f700c00c929",
-    "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-win32.zip" => "a32487407bc0c4e21
-7d8839892333fb0cb39153194d2788f226e9c5b9abdd928",
-   "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-winx64.zip" => "3555641cea2da6
-0435ab7f1681a94d1aa97341f1a0f52193adc82a83734818ca",
-    "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-macos10.12-x86_64.tar.gz" => "c97d76936
-c6caf063778395e7ca15862770a1ab77c1731269408a8d5c0eb4b93",
+    "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-linux-glibc2.12-i686.tar.gz" => "32e463fda6613907b90d44228b3b81ad7508ce5e20a928b86ced47fbce1fe92a",
+    "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-linux-glibc2.12-x86_64.tar.gz" => "149102915ea1f1144edb0de399c3392a55773448f96b150ec1568f700c00c929",
+    "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-win32.zip" => "a32487407bc0c4e217d8839892333fb0cb39153194d2788f226e9c5b9abdd928",
+   "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-winx64.zip" => "3555641cea2da60435ab7f1681a94d1aa97341f1a0f52193adc82a83734818ca",
+    "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-macos10.12-x86_64.tar.gz" => "c97d76936c6caf063778395e7ca15862770a1ab77c1731269408a8d5c0eb4b93",
 ]
 
 # Bash recipe for building across all platforms
