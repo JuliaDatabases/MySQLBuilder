@@ -32,7 +32,7 @@ fi
 platforms = [
     Linux(:i686, :glibc),
     Linux(:x86_64, :glibc),
-    Windows(:i686),
+    #Windows(:i686), see https://github.com/JuliaPackaging/BinaryBuilder.jl/issues/167
     Windows(:x86_64),
     MacOS()
 ]
