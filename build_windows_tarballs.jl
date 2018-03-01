@@ -1,6 +1,6 @@
 using BinaryBuilder
 
-const prefix = Prefix("products\\libmariadb.dll")
+const prefix = Prefix("products")
 
 const platform = ENV["BIT"] == "32" ? Windows(:i686) : Windows(:x86_64)
 
