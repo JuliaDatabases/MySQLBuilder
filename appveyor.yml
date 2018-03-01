@@ -43,6 +43,9 @@ install:
   - mkdir products
   - dir C:\projects\mariadb
   - dir C:\projects\mariadb\MariaDB
+  - dir "C:\projects\mariadb\MariaDB\MariaDB Connector C"
+  - dir "C:\projects\mariadb\MariaDB\MariaDB Connector C\lib"
+  - dir $env:DLLPATH
   - copy $env:DLLPATH products\
 
 build_script:
