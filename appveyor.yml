@@ -3,13 +3,13 @@ environment:
   - JULIA_URL: "https://julialang-s3.julialang.org/bin/winnt/x86/0.6/julia-0.6-latest-win32.exe"
     BIT: "32"
     MARIA: "https://downloads.mariadb.com/Connectors/c/connector-c-3.0.3/mariadb-connector-c-3.0.3-win32.msi"
-    DLLPATH: "C:\\projects\\mariadb\\MariaDB\\MariaDB Connector C\\lib\\libmariadb.dll"
+    MARIADLLPATH: "C:\\projects\\mariadb\\MariaDB\\MariaDB Connector C\\lib\\libmariadb.dll"
     ARTIFACT: "products\\MySQL.i686-w64-mingw32.tar.gz"
 
   - JULIA_URL: "https://julialang-s3.julialang.org/bin/winnt/x64/0.6/julia-0.6-latest-win64.exe"
     BIT: "64"
     MARIA: "https://downloads.mariadb.com/Connectors/c/connector-c-3.0.3/mariadb-connector-c-3.0.3-win64.msi"
-    DLLPATH: "C:\\projects\\mariadb\\MariaDB\\MariaDB Connector C 64-bit\\lib\\libmariadb.dll"
+    MARIADLLPATH: "C:\\projects\\mariadb\\MariaDB\\MariaDB Connector C 64-bit\\lib\\libmariadb.dll"
     ARTIFACT: "products\\MySQL.x86_64-w64-mingw32.tar.gz"
 
 branches:
@@ -45,8 +45,8 @@ install:
   - dir C:\projects\mariadb\MariaDB
   - dir "C:\projects\mariadb\MariaDB\MariaDB Connector C"
   - dir "C:\projects\mariadb\MariaDB\MariaDB Connector C\lib"
-  - dir $env:DLLPATH
-  - copy $env:DLLPATH products\
+  - dir $env:MARIADLLPATH
+  - copy $env:MARIADLLPATH products\
 
 build_script:
 # Need to convert from shallow to complete for Pkg.clone to work
