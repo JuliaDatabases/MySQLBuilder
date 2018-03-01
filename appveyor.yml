@@ -40,14 +40,14 @@ install:
   - msiexec /a C:\projects\mariadb.msi /qb TARGETDIR=C:\projects\mariadb
   - mkdir products
   - dir "C:\projects\mariadb\MariaDB\MariaDB Connector C\lib"
-  - copy "C:\projects\mariadb\MariaDB\MariaDB Connector C\lib\libmariadb.dll" products\ & exit 0
-  - copy "C:\projects\mariadb\MariaDB\MariaDB Connector C 64-bit\lib\libmariadb.dll" products\ & exit 0
+  - copy "C:\projects\mariadb\MariaDB\MariaDB Connector C\lib\libmariadb.dll" \ & exit 0
+  - copy "C:\projects\mariadb\MariaDB\MariaDB Connector C 64-bit\lib\libmariadb.dll" \ & exit 0
 
 build_script:
 # Need to convert from shallow to complete for Pkg.clone to work
   - IF EXIST .git\shallow (git fetch --unshallow)
   - C:\projects\julia\bin\julia -e "Pkg.clone(\"https://github.com/JuliaPackaging/BinaryProvider.jl\")"
-  - C:\projects\julia\bin\julia -e "Pkg.clone(\"https://github.com/JuliaPackaging/BinaryBuilder.jl\"); Pkg.build()"
+  - C:\projects\julia\bin\julia -e "Pkg.clone(\"https://github.com/JuliaPackaging/BinaryBuilder.jl\")"
   - C:\projects\julia\bin\julia build_windows_tarballs.jl
 
 artifacts:
