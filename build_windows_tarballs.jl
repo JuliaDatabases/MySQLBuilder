@@ -2,10 +2,13 @@ using BinaryBuilder
 
 const prefix = Prefix("products")
 
-const platform = ENV["BIT"] == "32" ? Windows(:i686) : Windows(:x86_64)
-
-file, hash = package(prefix, "MySQL"; platform=platform, verbose=true, force=true)
+file, hash = package(prefix, "MySQL"; platform=Windows(:i686), verbose=true, force=true)
+file2, hash2 = package(prefix, "MySQL"; platform=Windows(:x86_64), verbose=true, force=true)
 
 @show readdir()
 @show readdir("products")
-println("successfully packaged (\"$file\", \"$hash\")")
+
+println("""
+Windows(:i686) => (\"\$bin_prefix/$file\", \"$hash\"),
+Windows(:x86_64) => (\"\$bin_prefix/$file2\", \"$hash2\")
+""")
