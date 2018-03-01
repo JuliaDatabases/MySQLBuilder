@@ -50,7 +50,8 @@ deploy:
   provider: GitHub
   auth_token:
     secure: 8lfUNWIA6kc0pw+Y6HGIyYPngE6/TcFC/FwoDZoZe9nTjApl6wlVIVYF45hqONF4
-  artifact: '*.tar.gz'
+  artifact: /.*\.tar.gz/
+  force_update: true
   on:
     branch: master
     appveyor_repo_tag: true
