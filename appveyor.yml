@@ -48,13 +48,13 @@ build_script:
   - C:\projects\julia\bin\julia build_windows_tarballs.jl
 
 artifacts:
-  - path: 'products\*.tar.gz'
+  - path: 'products\**\*.tar.gz'
   
 deploy:
   provider: GitHub
   auth_token:
     secure: vo/Tbg4spQ8vpXGIlRBXo6XGJgnAVrZpcX2RNluyHt4gu9rjM2jzvsKGSZr7e8x7y/wYQyMuPJEzFXTxArQkk1RNXVhx/bZsF7NAmJYA8a/2Jf0iHO6/CfspKEzsjA0RrXclCSkUZzFy5b5EpqmvZQBpd9KqKN6MQ+qaK+7kS3LEH+uRzQTvxSbj9ru2ugupRqtG2RxjNaVJZAlG3knb4gdxujxXH83DrSPEO4e3Dh9KdL42HeYcq4CHZiihlpajoaKSNM7RMiHXqvs06cgq1KXXYWO0tmyXsO9OgXqTHZOXzJtgQUgErwopZEkaTDZqrav2XVRPD/rOx4vvX+wd6D9SrdcBzpzCSdEsMUICu7hvdDaNLP/2J/+qJ6GFRp7rurvvIRcl52DeeHVFPwsGNDZz8XB5FBonS5MS8Oy5EockqaosPhLpT3MoydUucf1tZXyhuIbH6w/6MU/NChf2B34rK0p2fCLLx5tUf6zPWnOxMLZlFv1gnVWLQWcxBAeHBS3b3PoOckzFaM0syKhgtNEJ8eehtF2Y0LVjXStA0GQVWrKXBHdiumBJlSlURu3oDOrhX+8boKOQUM8n0uPgsf5NTfxH3TfiHLFvy6IZGzSQsEKPNiIGkA0reFVR2jc5XG/FNXsBVOKtZ8AszPw5tNY46LNKOL4H17Jm08EGhkY=
-  artifact: 'products\*.tar.gz'
+  artifact: 'products\**\*.tar.gz'
   on:
     branch: master
     appveyor_repo_tag: true
