@@ -8,10 +8,6 @@ environment:
     BIT: "64"
     MARIA: "https://downloads.mariadb.com/Connectors/c/connector-c-3.0.3/mariadb-connector-c-3.0.3-win64.msi"
 
-branches:
-  only:
-    - /release-.*/
-
 notifications:
   - provider: Email
     on_build_success: false
