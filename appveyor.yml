@@ -41,6 +41,8 @@ install:
   - C:\projects\julia-binary.exe /S /D=C:\projects\julia
   - msiexec /a C:\projects\mariadb.msi /qb TARGETDIR=C:\projects\mariadb
   - mkdir products
+  - dir C:\projects\mariadb
+  - dir C:\projects\mariadb\MariaDB
   - copy $env:DLLPATH products\
 
 build_script:
