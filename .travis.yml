@@ -2,7 +2,7 @@ language: julia
 os:
   - linux
 julia:
-  - nightly
+  - 0.6
 notifications:
   email: false
 git:
@@ -19,10 +19,7 @@ sudo: required
 
 # Before anything else, get the latest versions of things
 before_script:
-  - julia -e 'Pkg.clone("https://github.com/JuliaLang/PkgDev.jl")'
-  - julia -e 'Pkg.checkout("PkgDev", "jq/0.7")'
-  - julia -e 'Pkg.clone("https://github.com/quinnj/BinaryProvider.jl")'
-  - julia -e 'Pkg.checkout("BinaryProvider", "jq/0.7")'
+  - julia -e 'Pkg.clone("https://github.com/JuliaPackaging/BinaryProvider.jl")'
   - julia -e 'Pkg.clone("https://github.com/JuliaPackaging/BinaryBuilder.jl"); Pkg.build()'
 
 script:

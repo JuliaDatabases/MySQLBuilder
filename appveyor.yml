@@ -1,0 +1,61 @@
+environment:
+  matrix:
+  - JULIA_URL: "https://julialang-s3.julialang.org/bin/winnt/x86/0.6/julia-0.6-latest-win32.exe"
+    BIT: "32"
+    MARIA: "https://downloads.mariadb.com/Connectors/c/connector-c-3.0.3/mariadb-connector-c-3.0.3-win32.msi"
+    DLLPATH: "C:\projects\mariadb\MariaDB\MariaDB Connector C\lib\libmariadb.dll"
+    ARTIFACT: "products\MySQL.i686-w64-mingw32.tar.gz"
+
+  - JULIA_URL: "https://julialang-s3.julialang.org/bin/winnt/x64/0.6/julia-0.6-latest-win64.exe"
+    BIT: "64"
+    MARIA: "https://downloads.mariadb.com/Connectors/c/connector-c-3.0.3/mariadb-connector-c-3.0.3-win64.msi"
+    DLLPATH: "C:\projects\mariadb\MariaDB\MariaDB Connector C 64-bit\lib\libmariadb.dll"
+    ARTIFACT: "products\MySQL.x86_64-w64-mingw32.tar.gz"
+
+branches:
+  only:
+    - /release-.*/
+
+notifications:
+  - provider: Email
+    on_build_success: false
+    on_build_failure: false
+    on_build_status_changed: false
+
+install:
+  - ps: "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12"
+# if there's a newer build queued for the same PR, cancel this one
+  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
+        https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
+        Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
+        throw "There are newer queued builds for this pull request, failing early." }
+# Download most recent Julia Windows binary
+  - ps: (new-object net.webclient).DownloadFile(
+        $env:JULIA_URL,
+        "C:\projects\julia-binary.exe")
+  - ps: (new-object net.webclient).DownloadFile(
+        $env:MARIA,
+        "C:\projects\mariadb.msi")
+
+# Run installer silently, output to C:\projects\julia
+  - C:\projects\julia-binary.exe /S /D=C:\projects\julia
+  - msiexec /a C:\projects\mariadb.msi /qb TARGETDIR=C:\projects\mariadb
+  - mkdir products
+  - copy $env:DLLPATH products\
+
+build_script:
+# Need to convert from shallow to complete for Pkg.clone to work
+  - IF EXIST .git\shallow (git fetch --unshallow)
+  - C:\projects\julia\bin\julia build_windows_tarballs.jl
+
+artifacts:
+  - path: $env:ARTIFACT
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: vo/Tbg4spQ8vpXGIlRBXo6XGJgnAVrZpcX2RNluyHt4gu9rjM2jzvsKGSZr7e8x7y/wYQyMuPJEzFXTxArQkk1RNXVhx/bZsF7NAmJYA8a/2Jf0iHO6/CfspKEzsjA0RrXclCSkUZzFy5b5EpqmvZQBpd9KqKN6MQ+qaK+7kS3LEH+uRzQTvxSbj9ru2ugupRqtG2RxjNaVJZAlG3knb4gdxujxXH83DrSPEO4e3Dh9KdL42HeYcq4CHZiihlpajoaKSNM7RMiHXqvs06cgq1KXXYWO0tmyXsO9OgXqTHZOXzJtgQUgErwopZEkaTDZqrav2XVRPD/rOx4vvX+wd6D9SrdcBzpzCSdEsMUICu7hvdDaNLP/2J/+qJ6GFRp7rurvvIRcl52DeeHVFPwsGNDZz8XB5FBonS5MS8Oy5EockqaosPhLpT3MoydUucf1tZXyhuIbH6w/6MU/NChf2B34rK0p2fCLLx5tUf6zPWnOxMLZlFv1gnVWLQWcxBAeHBS3b3PoOckzFaM0syKhgtNEJ8eehtF2Y0LVjXStA0GQVWrKXBHdiumBJlSlURu3oDOrhX+8boKOQUM8n0uPgsf5NTfxH3TfiHLFvy6IZGzSQsEKPNiIGkA0reFVR2jc5XG/FNXsBVOKtZ8AszPw5tNY46LNKOL4H17Jm08EGhkY=
+  artifact: $env:ARTIFACT
+  on:
+    branch: master
+    appveyor_repo_tag: true
