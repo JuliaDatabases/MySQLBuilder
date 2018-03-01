@@ -6,4 +6,6 @@ const platform = ENV["BIT"] == "32" ? Windows(:i686) : Windows(:x86_64)
 
 file, hash = package(prefix, "MySQL"; platform=platform, verbose=true, force=true)
 
+@show readdir()
+@show readdir("products")
 println("successfully packaged (\"$file\", \"$hash\")")
