@@ -67,6 +67,8 @@ if !only_buildjl
     # Build the given platforms using the given sources
     autobuild(pwd(), "MySQL", platforms, sources, script, products;
                                       dependencies=dependencies, verbose=verbose)
+    @show readdir("products")
+    @show readdir("products/lib")
 else
     # If we're only reconstructing a build.jl file on Travis, grab the information and do it
     if !haskey(ENV, "TRAVIS_REPO_SLUG") || !haskey(ENV, "TRAVIS_TAG")

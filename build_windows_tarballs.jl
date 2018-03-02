@@ -1,9 +1,7 @@
 using BinaryBuilder
 
-const prefix = Prefix("products")
-
-file, hash = package(prefix, "MySQL"; platform=Windows(:i686), verbose=true, force=true)
-file2, hash2 = package(prefix, "MySQL"; platform=Windows(:x86_64), verbose=true, force=true)
+file, hash = package(Prefix("products32"), "MySQL"; platform=Windows(:i686), verbose=true, force=true)
+file2, hash2 = package(Prefix("products64"), "MySQL"; platform=Windows(:x86_64), verbose=true, force=true)
 
 @show readdir()
 @show readdir("products")

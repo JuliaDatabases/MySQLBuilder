@@ -27,9 +27,10 @@ install:
   - C:\projects\julia-binary.exe /S /D=C:\projects\julia
   - msiexec /a C:\projects\mariadb.msi /qb TARGETDIR=C:\projects\mariadb
   - msiexec /a C:\projects\mariadb2.msi /qb TARGETDIR=C:\projects\mariadb
-  - mkdir products
-  - copy "C:\projects\mariadb\MariaDB\MariaDB Connector C\lib\libmariadb.dll" products\ & exit 0
-  - copy "C:\projects\mariadb\MariaDB\MariaDB Connector C 64-bit\lib\libmariadb.dll" products\ & exit 0
+  - mkdir products32\lib
+  - mkdir products64\lib
+  - copy "C:\projects\mariadb\MariaDB\MariaDB Connector C\lib\libmariadb.dll" products32\lib\ & exit 0
+  - copy "C:\projects\mariadb\MariaDB\MariaDB Connector C 64-bit\lib\libmariadb.dll" products64\lib\ & exit 0
 
 build_script:
 # Need to convert from shallow to complete for Pkg.clone to work
