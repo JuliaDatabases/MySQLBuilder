@@ -19,6 +19,7 @@ else
     cd mariadb-connector-c-3.0.3-src/
     cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_TOOLCHAIN_FILE=/opt/$target/$target.toolchain
     make && make install
+    mv $prefix/lib/mariadb/* $prefix/lib/.
 fi
 """
 
