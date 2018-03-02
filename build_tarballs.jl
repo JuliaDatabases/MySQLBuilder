@@ -86,3 +86,8 @@ else
         print_buildjl(STDOUT, product_hashes; products=products(dummy_prefix), bin_path=bin_path)
     end
 end
+
+if !isempty(get(ENV,"TRAVIS_TAG",""))
+    print_buildjl(pwd(), products, hashes,
+        "https://github.com/quinnj/MbedTLSBuilder/releases/download/$(ENV["TRAVIS_TAG"])")
+end

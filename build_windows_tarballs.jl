@@ -2,7 +2,7 @@ using BinaryBuilder
 
 try
     @show readdir("products32")
-    @show readdir("products32/lib")
+    @show readdir("products32/bin")
 end
 
 file, hash = package(Prefix("products32"), "MySQL"; platform=Windows(:i686), verbose=true, force=true)
