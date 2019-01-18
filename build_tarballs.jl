@@ -2,9 +2,9 @@ using BinaryBuilder
 
 # Collection of sources required to build MySQL
 sources = [
-    "https://downloads.mariadb.com/Connectors/c/connector-c-3.0.3/mariadb-connector-c-3.0.3-src.tar.gz" =>
-    "210f0ee3414b235d3db8e98e9e5a0a98381ecf771e67ca4a688036368984eeea",
-     "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-macos10.12-x86_64.tar.gz" =>
+    "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-linux-glibc2.12-x86_64.tar.gz" =>
+    "0ba6579140dd97defbe8a539b2d551ddf96deeee51ff39523d8adab843f3d9dd",
+    "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-macos10.12-x86_64.tar.gz" =>
     "c97d76936c6caf063778395e7ca15862770a1ab77c1731269408a8d5c0eb4b93",
 ]
 
@@ -13,15 +13,15 @@ script = raw"""
 if [ $target == "x86_64-apple-darwin14" ]; then
     cd $WORKSPACE/srcdir
     mkdir $prefix/lib
-    cp mysql-connector-c-6.1.11-macos10.12-x86_64/lib/libmysqlclient.18.dylib $prefix/lib/libmariadb.dylib
+    cp mysql-connector-c-6.1.11-macos10.12-x86_64/lib/libmysqlclient.18.dylib $prefix/lib/libmysqlclient.dylib
 else
     cd $WORKSPACE/srcdir
-    cd mariadb-connector-c-3.0.3-src/
+    cd mysql-connector-c-6.1.11-linux-glibc2.12-x86_64/
     cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_TOOLCHAIN_FILE=/opt/$target/$target.toolchain
     make && make install
-    mv $prefix/lib/mariadb/* $prefix/lib/.
+    mv $prefix/lib/mysql/* $prefix/lib/.
 fi
-"""
+""" # NOTE: not sure if the mv is still necessary with the mysql connector
 
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
@@ -36,12 +36,12 @@ platforms = [
 
 # The products that we will ensure are always built
 products(prefix) = Product[
-    LibraryProduct(prefix, "libmariadb", :libmariadb)
+    LibraryProduct(prefix, "libmysqlclient", :libmysqlclient)
 ]
 
 # Dependencies that must be installed before this package can be built
 dependencies = [
-    
+
 ]
 
 # Parse out some command-line arguments
