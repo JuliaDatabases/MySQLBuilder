@@ -2,10 +2,14 @@ using BinaryBuilder
 
 # Collection of sources required to build MySQL
 sources = [
-    "https://downloads.mariadb.com/Connectors/c/connector-c-3.0.3/mariadb-connector-c-3.0.3-src.tar.gz" =>
-    "210f0ee3414b235d3db8e98e9e5a0a98381ecf771e67ca4a688036368984eeea",
-     "https://dev.mysql.com/get/Downloads/Connector-C/mysql-connector-c-6.1.11-macos10.12-x86_64.tar.gz" =>
-    "c97d76936c6caf063778395e7ca15862770a1ab77c1731269408a8d5c0eb4b93",
+    # linux 64-bit
+    "https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-linux-glibc2.12-x86_64.tar.xz" => "f3f1fd7d720883a8a16fe8ca3cb78150ad2f4008d251ce8ac0a2c676e2cf1e1f",
+    # linux 32-bit
+    "https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-linux-glibc2.12-i686.tar.xz" => "b5a18de4e0b8c9209286d887bf187b8e7396e43d4b367870ca870ed95302fc7e",
+    # macOS
+    "https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-macos10.14-x86_64.tar.gz" => "f6b1313e89b549947fa774e160a31cf051742110f7f27beadcdc0b4ebea7baa9",
+    # freeBSD
+    "https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-freebsd11-x86_64.tar.gz" => "6099b7fc5444c183d0e1ca8973b32429c58060548c15a2056ed2d81269184a39",
 ]
 
 # Bash recipe for building across all platforms
@@ -25,23 +29,15 @@ fi
 
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
-platforms = [
-    Linux(:i686, :glibc),
-    Linux(:x86_64, :glibc),
-    Linux(:aarch64, :glibc),
-    Linux(:armv7l, :glibc),
-    Linux(:powerpc64le, :glibc),
-    MacOS()
-]
+platforms = filter(x->BinaryProvider.platform_name(x)!="Windows", supported_platforms())
 
 # The products that we will ensure are always built
 products(prefix) = Product[
-    LibraryProduct(prefix, "libmariadb", :libmariadb)
+    LibraryProduct(prefix, "libmysqlclient", :libmysql)
 ]
 
 # Dependencies that must be installed before this package can be built
 dependencies = [
-    
 ]
 
 # Parse out some command-line arguments
