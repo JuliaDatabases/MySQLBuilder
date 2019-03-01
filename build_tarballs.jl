@@ -22,7 +22,7 @@ for (platform, (url, hash)) in sources
     filepath = joinpath(pwd(), "products", string("MySQL.$(triplet(platform)).tar.gz"))
     println("packaging $filepath")
     BinaryProvider.package(joinpath(pwd(), "out", splitext(splitext(basename(url))[1])[1]), filepath)
-    product_hashes[platform] = open(filepath) do file
+    product_hashes[triplet(platform)] = open(filepath) do file
         BinaryBuilder.bytes2hex(BinaryBuilder.sha256(file))
     end
     rm(joinpath(pwd(), "out"); force=true, recursive=true)
