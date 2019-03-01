@@ -2,6 +2,9 @@ environment:
   matrix:
   - julia_version: 1
 
+platform:
+  - x64 # 64-bit
+
 branches:
   only:
     - /release-.*/

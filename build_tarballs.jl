@@ -41,9 +41,7 @@ repo_name = ENV["TRAVIS_REPO_SLUG"]
 tag_name = ENV["TRAVIS_TAG"]
 bin_path = "https://github.com/$(repo_name)/releases/download/$(tag_name)"
 dummy_prefix = Prefix(pwd())
-print_buildjl(pwd(), products(dummy_prefix), product_hashes, bin_path)
+print_buildjl(pwd(), "MySQL", "0.21", products(dummy_prefix), product_hashes, bin_path)
 
-if verbose
-    info("Writing out the following reconstructed build.jl:")
-    print_buildjl(STDOUT, product_hashes; products=products(dummy_prefix), bin_path=bin_path)
-end
+info("Writing out the following reconstructed build.jl:")
+print_buildjl(STDOUT, products(dummy_prefix), product_hashes, bin_path)
