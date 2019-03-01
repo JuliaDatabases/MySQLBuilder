@@ -13,16 +13,19 @@ product_hashes = Dict()
 mkpath(joinpath(pwd(), "products"))
 
 for (platform, (url, hash)) in sources
+    println("downloading $url")
     @assert BinaryProvider.download_verify_unpack(url, hash, joinpath(pwd(), "out"); force=true)
     rm(joinpath(pwd(), "out", splitext(splitext(basename(url))[1])[1], "bin"); force=true, recursive=true)
     rm(joinpath(pwd(), "out", splitext(splitext(basename(url))[1])[1], "docs"); force=true, recursive=true)
     rm(joinpath(pwd(), "out", splitext(splitext(basename(url))[1])[1], "man"); force=true, recursive=true)
     rm(joinpath(pwd(), "out", splitext(splitext(basename(url))[1])[1], "share"); force=true, recursive=true)
     filepath = joinpath(pwd(), "products", string("MySQL.$(triplet(platform)).tar.gz"))
+    println("packaging $filepath")
     BinaryProvider.package(joinpath(pwd(), "out", splitext(splitext(basename(url))[1])[1]), filepath)
     product_hashes[platform] = open(filepath) do file
         BinaryBuilder.bytes2hex(BinaryBuilder.sha256(file))
     end
+    rm(joinpath(pwd(), "out"); force=true, recursive=true)
 end
 
 # The products that we will ensure are always built
