@@ -22,7 +22,7 @@ install:
         "https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-community-8.0.15.0.msi",
         "C:\projects\mysql.msi")
 # Run installer silently, output to C:\projects\julia
-  - msiexec /a C:\projects\mysql.msi /qb TARGETDIR=C:\projects\mysql
+  - msiexec /a C:\projects\mysql.msi /b TARGETDIR=C:\projects\mysql
   - dir C:\projects\mysql
   - mkdir products32\bin
   - mkdir products64\bin

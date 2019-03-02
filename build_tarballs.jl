@@ -44,4 +44,4 @@ dummy_prefix = Prefix(pwd())
 print_buildjl(pwd(), "MySQL", v"8.0.15", products(dummy_prefix), product_hashes, bin_path)
 
 println("Writing out the following reconstructed build.jl:")
-print_buildjl(STDOUT, products(dummy_prefix), product_hashes, bin_path)
+print_buildjl(stdout, products(dummy_prefix), product_hashes, bin_path)
