@@ -6,6 +6,7 @@ sources = Dict(
     Linux(:x86_64, :glibc) => "https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-linux-glibc2.12-x86_64.tar.xz"=>"f3f1fd7d720883a8a16fe8ca3cb78150ad2f4008d251ce8ac0a2c676e2cf1e1f",
     MacOS() => "https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-macos10.14-x86_64.tar.gz"=>"f6b1313e89b549947fa774e160a31cf051742110f7f27beadcdc0b4ebea7baa9",
     FreeBSD(:x86_64) => "https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-freebsd11-x86_64.tar.gz"=>"6099b7fc5444c183d0e1ca8973b32429c58060548c15a2056ed2d81269184a39",
+    Windows(:x86_64) => "https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-winx64.zip"=>"16bf0ad985dd862c81f030438e7907872c2989fbb67548177f5853803d3fb803",
 )
 
 product_hashes = Dict()
@@ -17,7 +18,6 @@ for (platform, (url, hash)) in sources
     @assert BinaryProvider.download_verify_unpack(url, hash, joinpath(pwd(), "out"); force=true)
     rm(joinpath(pwd(), "out", splitext(splitext(basename(url))[1])[1], "bin"); force=true, recursive=true)
     rm(joinpath(pwd(), "out", splitext(splitext(basename(url))[1])[1], "docs"); force=true, recursive=true)
-    rm(joinpath(pwd(), "out", splitext(splitext(basename(url))[1])[1], "man"); force=true, recursive=true)
     rm(joinpath(pwd(), "out", splitext(splitext(basename(url))[1])[1], "share"); force=true, recursive=true)
     filepath = joinpath(pwd(), "products", string("MySQL.$(triplet(platform)).tar.gz"))
     println("packaging $filepath")
