@@ -30,6 +30,8 @@ for (platform, (url, hash)) in sources
     rm(joinpath(pwd(), "out", spl(url), "share"); force=true, recursive=true)
     filepath = joinpath(pwd(), "products", string("MySQL.$(triplet(platform)).tar.gz"))
     println("packaging $(joinpath(pwd(), "out", spl(url))) into $filepath...")
+    @show readdir(joinpath(pwd(), "out"))
+    @show readdir(joinpath(pwd(), "out", spl(url)))
     BinaryProvider.package(joinpath(pwd(), "out", spl(url)), filepath)
     product_hashes[triplet(platform)] = open(filepath) do file
         BinaryBuilder.bytes2hex(BinaryBuilder.sha256(file))
