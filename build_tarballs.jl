@@ -19,10 +19,10 @@ for (platform, (url, hash)) in sources
         @assert BinaryProvider.download_verify(url, hash, joinpath(pwd(), "out", "mysql.zip"); force=true)
         println("unzipping $(joinpath(pwd(), "out", "mysql.zip"))")
         success(`unzip $(joinpath(pwd(), "out", "mysql.zip")) -d $(joinpath(pwd(), "out")) -v`)
-        spl(x) = splitext(basename(x))[1]
+        spl = x -> splitext(basename(x))[1]
     else
         @assert BinaryProvider.download_verify_unpack(url, hash, joinpath(pwd(), "out"); force=true)
-        spl(x) = splitext(splitext(basename(x))[1])[1]
+        spl = x -> splitext(splitext(basename(x))[1])[1]
     end
     println("removing uneeded files...")
     rm(joinpath(pwd(), "out", spl(url), "bin"); force=true, recursive=true)
