@@ -17,17 +17,19 @@ for (platform, (url, hash)) in sources
     println("downloading $url")
     if platform == Windows(:x86_64)
         @assert BinaryProvider.download_verify(url, hash, joinpath(pwd(), "out", "mysql.zip"); force=true)
-        success(`unzip $(joinpath(pwd(), "out", "mysql.zip")) -d $(joinpath(pwd(), "out"))`)
+        println("unzipping $(joinpath(pwd(), "out", "mysql.zip"))")
+        success(`unzip $(joinpath(pwd(), "out", "mysql.zip")) -d $(joinpath(pwd(), "out")) -v`)
         spl(x) = splitext(basename(x))[1]
     else
         @assert BinaryProvider.download_verify_unpack(url, hash, joinpath(pwd(), "out"); force=true)
         spl(x) = splitext(splitext(basename(x))[1])[1]
     end
+    println("removing uneeded files...")
     rm(joinpath(pwd(), "out", spl(url), "bin"); force=true, recursive=true)
     rm(joinpath(pwd(), "out", spl(url), "docs"); force=true, recursive=true)
     rm(joinpath(pwd(), "out", spl(url), "share"); force=true, recursive=true)
     filepath = joinpath(pwd(), "products", string("MySQL.$(triplet(platform)).tar.gz"))
-    println("packaging $filepath")
+    println("packaging $(joinpath(pwd(), "out", spl(url))) into $filepath...")
     BinaryProvider.package(joinpath(pwd(), "out", spl(url)), filepath)
     product_hashes[triplet(platform)] = open(filepath) do file
         BinaryBuilder.bytes2hex(BinaryBuilder.sha256(file))
