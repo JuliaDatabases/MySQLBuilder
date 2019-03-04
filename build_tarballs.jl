@@ -16,27 +16,26 @@ mkpath(joinpath(pwd(), "products"))
 for (platform, (url, hash)) in sources
     println("downloading $url")
     if platform == Windows(:x86_64)
-        @assert BinaryProvider.download_verify(url, hash, joinpath(pwd(), "out", "mysql.zip"); force=true)
-        println("unzipping $(joinpath(pwd(), "out", "mysql.zip"))")
-        success(`unzip $(joinpath(pwd(), "out", "mysql.zip")) -d $(joinpath(pwd(), "out")) -v`)
-        spl = x -> splitext(basename(x))[1]
+        @assert BinaryProvider.download_verify(url, hash, joinpath(pwd(), "mysql.zip"); force=true)
+        println("unzipping $(joinpath(pwd(), "mysql.zip"))")
+        success(`unzip $(joinpath(pwd(), "mysql.zip"))`)
+        root = joinpath(pwd(), splitext(basename(url))[1])
     else
-        @assert BinaryProvider.download_verify_unpack(url, hash, joinpath(pwd(), "out"); force=true)
-        spl = x -> splitext(splitext(basename(x))[1])[1]
+        @assert BinaryProvider.download_verify_unpack(url, hash, pwd()); force=true)
+        root = joinpath(pwd(), splitext(splitext(basename(url))[1])[1])
     end
     println("removing uneeded files...")
-    rm(joinpath(pwd(), "out", spl(url), "bin"); force=true, recursive=true)
-    rm(joinpath(pwd(), "out", spl(url), "docs"); force=true, recursive=true)
-    rm(joinpath(pwd(), "out", spl(url), "share"); force=true, recursive=true)
+    rm(joinpath(root, "bin"); force=true, recursive=true)
+    rm(joinpath(root, "docs"); force=true, recursive=true)
+    rm(joinpath(root, "share"); force=true, recursive=true)
     filepath = joinpath(pwd(), "products", string("MySQL.$(triplet(platform)).tar.gz"))
-    println("packaging $(joinpath(pwd(), "out", spl(url))) into $filepath...")
-    @show readdir(joinpath(pwd(), "out"))
-    @show readdir(joinpath(pwd(), "out", spl(url)))
-    BinaryProvider.package(joinpath(pwd(), "out", spl(url)), filepath)
+    println("packaging $root into $filepath...")
+    @show readdir(root)
+    BinaryProvider.package(root, filepath)
     product_hashes[triplet(platform)] = open(filepath) do file
         BinaryBuilder.bytes2hex(BinaryBuilder.sha256(file))
     end
-    rm(joinpath(pwd(), "out"); force=true, recursive=true)
+    rm(root; force=true, recursive=true)
 end
 
 # The products that we will ensure are always built
