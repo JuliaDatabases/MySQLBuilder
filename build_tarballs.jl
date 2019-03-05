@@ -16,12 +16,12 @@ mkpath(joinpath(pwd(), "products"))
 for (platform, (url, hash)) in sources
     println("downloading $url")
     if platform == Windows(:x86_64)
-        @assert BinaryProvider.download_verify(url, hash, joinpath(pwd(), "mysql.zip"); force=true)
+        @assert BinaryProvider.download_verify(url, hash, joinpath(pwd(), "mysql.zip"); force=true, verbose=true)
         println("unzipping $(joinpath(pwd(), "mysql.zip"))")
         success(`unzip $(joinpath(pwd(), "mysql.zip"))`)
         root = joinpath(pwd(), splitext(basename(url))[1])
     else
-        @assert BinaryProvider.download_verify_unpack(url, hash, pwd(); force=true)
+        @assert BinaryProvider.download_verify_unpack(url, hash, pwd(); force=true, ignore_existence=true, verbose=true)
         root = joinpath(pwd(), splitext(splitext(basename(url))[1])[1])
     end
     println("removing uneeded files...")
